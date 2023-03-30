@@ -39,12 +39,13 @@ export const PokemonProvider = ({ children }) => {
     const res = await fetch(`${baseURL}pokemon?limit=10000&offset=0`)
     const data = await res.json()
 
-    const results = []
-    for (const pokemon of data.results) {
+    const promises = data.results.map(async (pokemon) => {
       const res = await fetch(pokemon.url)
       const data = await res.json()
-      results.push(data)
-    }
+      return data
+    })
+
+    const results = await Promise.all(promises)
 
     setGlobalPokemons(results)
     setLoading(false)
