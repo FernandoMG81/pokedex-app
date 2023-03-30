@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import LogoError from '../assets/error.png'
 
 export const CardPokemon = ({ pokemon }) => {
   const getFirstImageUrl = (sprites) => {
@@ -21,7 +22,7 @@ export const CardPokemon = ({ pokemon }) => {
       return sprites.front_default
     }
 
-    return null
+    return LogoError
   }
 
   return (

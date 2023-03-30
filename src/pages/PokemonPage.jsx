@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Loader } from '../components/Loader'
 import { PokemonContext } from '../context/PokemonContext'
+import LogoError from '../assets/error.png'
 
 export const PokemonPage = () => {
   const { getPokemonByID } = useContext(PokemonContext)
@@ -21,6 +22,28 @@ export const PokemonPage = () => {
     fetchPokemon(id)
   }, [])
 
+  const getFirstImageUrl = (sprites) => {
+    if (sprites && sprites.other && sprites.other.dream_world) {
+      const dreamWorld = sprites.other.dream_world
+      if (dreamWorld.front_default) {
+        return dreamWorld.front_default
+      }
+    }
+
+    if (sprites && sprites.other && sprites.other['official-artwork']) {
+      const officialArtwork = sprites.other['official-artwork']
+      if (officialArtwork.front_default) {
+        return officialArtwork.front_default
+      }
+    }
+
+    if (sprites && sprites.front_default) {
+      return sprites.front_default
+    }
+
+    return LogoError
+  }
+
   return (
     <main className='container main-pokemon'>
       {loading
@@ -33,7 +56,7 @@ export const PokemonPage = () => {
               <span className='number-pokemon'>#{pokemon.id}</span>
               <div className='container-img-pokemon'>
                 <img
-                  src={pokemon.sprites.other.dream_world.front_default}
+                  src={getFirstImageUrl(pokemon.sprites)}
                   alt={`Pokemon ${pokemon?.name}`}
                 />
               </div>

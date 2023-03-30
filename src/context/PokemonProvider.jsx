@@ -29,23 +29,22 @@ export const PokemonProvider = ({ children }) => {
     const results = await Promise.all(promises)
 
     setAllPokemons([...allPokemons, ...results])
-    setLoading(false)
   }
 
   // Obtener todo el listado de pokemones
 
   const getGlobalPokemons = async () => {
+    setLoading(true)
     const baseURL = 'https://pokeapi.co/api/v2/'
     const res = await fetch(`${baseURL}pokemon?limit=10000&offset=0`)
     const data = await res.json()
 
-    const promises = data.results.map(async (pokemon) => {
+    const results = []
+    for (const pokemon of data.results) {
       const res = await fetch(pokemon.url)
       const data = await res.json()
-      return data
-    })
-
-    const results = await Promise.all(promises)
+      results.push(data)
+    }
 
     setGlobalPokemons(results)
     setLoading(false)
@@ -65,7 +64,7 @@ export const PokemonProvider = ({ children }) => {
   }, [offset])
 
   useEffect(() => {
-    // getGlobalPokemons()
+    getGlobalPokemons()
   }, [])
 
   const onClickLoadMore = () => {
@@ -110,7 +109,12 @@ export const PokemonProvider = ({ children }) => {
           .map(type => type.type.name)
           .includes(e.target.name)
       )
-      setfilteredPokemons([...filteredPokemons, ...filteredResults])
+      const newFilteredPokemons = [
+        ...filteredPokemons,
+        ...filteredResults.filter(pokemon => !filteredPokemons.some(p => p.id === pokemon.id))
+      ].sort((a, b) => a.id - b.id)
+      console.log(newFilteredPokemons)
+      setfilteredPokemons(newFilteredPokemons)
     } else {
       const filteredResults = filteredPokemons.filter(
         pokemon =>
@@ -118,6 +122,8 @@ export const PokemonProvider = ({ children }) => {
             .map(type => type.type.name)
             .includes(e.target.name)
       )
+      console.log(filteredResults)
+
       setfilteredPokemons([...filteredResults])
     }
   }
