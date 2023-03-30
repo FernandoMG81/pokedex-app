@@ -9,12 +9,22 @@ export const PokemonPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [pokemon, setPokemon] = useState({})
+  const [pokemonStats, setPokemonStats] = useState({})
 
   const { id } = useParams()
 
   const fetchPokemon = async id => {
     const data = await getPokemonByID(id)
+    const NewPokemonStats = {
+      Hp: data.stats[0].base_stat,
+      Attack: data.stats[1].base_stat,
+      Defense: data.stats[2].base_stat,
+      Special_Attack: data.stats[3].base_stat,
+      Special_Defense: data.stats[4].base_stat,
+      Speed: data.stats[5].base_stat
+    }
     setPokemon(data)
+    setPokemonStats(NewPokemonStats)
     setLoading(false)
   }
 
@@ -42,6 +52,11 @@ export const PokemonPage = () => {
     }
 
     return LogoError
+  }
+
+  const setWidth = (value) => {
+    if (value > 100) return 100
+    return value
   }
 
   return (
@@ -88,44 +103,98 @@ export const PokemonPage = () => {
               <div className='stats'>
                 <div className='stat-group'>
                   <span>Hp</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Hp)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Hp / 100}s ease-in-out`,
+                        background: pokemonStats.Hp > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[0].base_stat}
+                    {pokemonStats.Hp}
                   </span>
                 </div>
                 <div className='stat-group'>
                   <span>Attack</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Attack)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Attack / 100}s ease-in-out`,
+                        background: pokemonStats.Attack > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[1].base_stat}
+                    {pokemonStats.Attack}
                   </span>
                 </div>
                 <div className='stat-group'>
                   <span>Defense</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Defense)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Defense / 100}s ease-in-out`,
+                        background: pokemonStats.Defense > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[2].base_stat}
+                    {pokemonStats.Defense}
                   </span>
                 </div>
                 <div className='stat-group'>
                   <span>Special Attack</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Special_Attack)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Special_Attack / 100}s ease-in-out`,
+                        background: pokemonStats.Special_Attack > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[3].base_stat}
+                    {pokemonStats.Special_Attack}
                   </span>
                 </div>
                 <div className='stat-group'>
                   <span>Special Defense</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Special_Defense)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Special_Defense / 100}s ease-in-out`,
+                        background: pokemonStats.Special_Defense > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[4].base_stat}
+                    {pokemonStats.Special_Defense}
                   </span>
                 </div>
                 <div className='stat-group'>
                   <span>Speed</span>
-                  <div className='progress-bar' />
+                  <div className='progress-bar'>
+                    <div
+                      className='progress-bar-fill'
+                      style={{
+                        width: `${setWidth(pokemonStats.Speed)}%`,
+                        animation: `progress-bar-fill ${pokemonStats.Speed / 100}s ease-in-out`,
+                        background: pokemonStats.Speed > 100 ? 'linear-gradient(135deg, #f7df1e, #ffc516)' : 'var(--color-primary)'
+                      }}
+                    />
+                  </div>
                   <span className='counter-stat'>
-                    {pokemon.stats[5].base_stat}
+                    {pokemonStats.Speed}
                   </span>
                 </div>
               </div>

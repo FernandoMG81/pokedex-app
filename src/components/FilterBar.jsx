@@ -58,10 +58,10 @@ export const FilterBar = () => {
           <input
             type='checkbox'
             onChange={handleCheckbox}
-            name='shadow'
-            id='shadow'
+            name='ghost'
+            id='ghost'
           />
-          <label htmlFor='shadow'>Fantasma</label>
+          <label htmlFor='ghost'>Fantasma</label>
         </div>
         <div className='group-type'>
           <input

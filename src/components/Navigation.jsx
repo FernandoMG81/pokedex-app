@@ -9,9 +9,14 @@ export const Navigation = () => {
 
   const onSearchSubmit = (event) => {
     event.preventDefault()
-    navigate('/search', {
-      state: valueSearch
-    })
+
+    if (valueSearch === '') {
+      navigate('/')
+    } else {
+      navigate('/search', {
+        state: valueSearch
+      })
+    }
   }
 
   return (
